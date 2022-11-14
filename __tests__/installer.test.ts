@@ -106,42 +106,29 @@ describe('DotnetCoreInstaller tests', () => {
     expect(process.env.DOTNET_ROOT).toBe(toolDir);
     expect(process.env.PATH?.startsWith(toolDir)).toBe(true);
   }, 600000); //This needs some time to download on "slower" internet connections
-
-   it('Acquires generic minor version of dotnet if no matching version is installed', async () => {
-    await getDotnet('6.0');
-    var directory = fs
-      .readdirSync(path.join(toolDir, 'sdk'))
-      .filter(fn => fn.startsWith('6.0.'));
-    expect(directory.length > 0).toBe(true);
-    if (IS_WINDOWS) {
-      expect(fs.existsSync(path.join(toolDir, 'dotnet.exe'))).toBe(true);
-    } else {
-      expect(fs.existsSync(path.join(toolDir, 'dotnet'))).toBe(true);
-    }
-
-    expect(process.env.DOTNET_ROOT).toBeDefined;
-    expect(process.env.PATH).toBeDefined;
-    expect(process.env.DOTNET_ROOT).toBe(toolDir);
-    expect(process.env.PATH?.startsWith(toolDir)).toBe(true);
-  }, 600000); //This needs some time to download on "slower" internet connections
   
-  it('Acquires generic major version of dotnet if no matching version is installed', async () => {
-    await getDotnet('6');
-    var directory = fs
-      .readdirSync(path.join(toolDir, 'sdk'))
-      .filter(fn => fn.startsWith('6.'));
-    expect(directory.length > 0).toBe(true);
-    if (IS_WINDOWS) {
-      expect(fs.existsSync(path.join(toolDir, 'dotnet.exe'))).toBe(true);
-    } else {
-      expect(fs.existsSync(path.join(toolDir, 'dotnet'))).toBe(true);
-    }
+  const cases = [["3.1"], ["6.0"], ["6"]];
 
-    expect(process.env.DOTNET_ROOT).toBeDefined;
-    expect(process.env.PATH).toBeDefined;
-    expect(process.env.DOTNET_ROOT).toBe(toolDir);
-    expect(process.env.PATH?.startsWith(toolDir)).toBe(true);
-  }, 600000); //This needs some time to download on "slower" internet connections
+  test.each(cases)(
+    "Acquires generic version of dotnet if no matching version is installed",
+    async (version) => {
+      await getDotnet('6');
+      var directory = fs
+        .readdirSync(path.join(toolDir, 'sdk'))
+        .filter(fn => fn.startsWith('6.'));
+      expect(directory.length > 0).toBe(true);
+      if (IS_WINDOWS) {
+        expect(fs.existsSync(path.join(toolDir, 'dotnet.exe'))).toBe(true);
+      } else {
+        expect(fs.existsSync(path.join(toolDir, 'dotnet'))).toBe(true);
+      }
+
+      expect(process.env.DOTNET_ROOT).toBeDefined;
+      expect(process.env.PATH).toBeDefined;
+      expect(process.env.DOTNET_ROOT).toBe(toolDir);
+      expect(process.env.PATH?.startsWith(toolDir)).toBe(true);
+      }
+    , 600000); //This needs some time to download on "slower" internet connections
   
   it('Returns string with installed SDK version', async () => {
     const version = '3.1.120';
