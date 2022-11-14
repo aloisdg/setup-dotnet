@@ -36,8 +36,8 @@ steps:
   uses: actions/setup-dotnet@v3
   with:
     dotnet-version: | 
-      3.1.x
-      5.0.x
+      '3.1.x'
+      '5.0.x'
 - run: dotnet build <my project>
 ```
 > **Note**: In case multiple versions are installed, the latest .NET version will be used by default unless another version is specified in the `global.json` file.
@@ -46,9 +46,9 @@ steps:
 
 The `dotnet-version` input supports following syntax:
 
-- **A.B.C** (e.g 6.0.400, 7.0.100-preview.7.22377.5) - installs exact version of .NET SDK
-- **A.B** or **A.B.x** (e.g. 3.1, 3.1.x) - installs the latest patch version of .NET SDK on the channel `3.1`, including prerelease versions (preview, rc)
-- **A** or **A.x** (e.g. 3, 3.x) - installs the latest minor version of the specified major tag, including prerelease versions (preview, rc)
+- **A.B.C** (e.g '6.0.400', '7.0.100-preview.7.22377.5') - installs exact version of .NET SDK
+- **A.B** or **A.B.x** (e.g. '3.1', '3.1.x') - installs the latest patch version of .NET SDK on the channel `'3.1'`, including prerelease versions (preview, rc)
+- **A** or **A.x** (e.g. '3', '3.x') - installs the latest minor version of the specified major tag, including prerelease versions (preview, rc)
 
 
 ## Using the `dotnet-quality` input
@@ -133,7 +133,7 @@ steps:
 ```yml
 - uses: actions/setup-dotnet@v3
   with:
-    dotnet-version: 3.1.x
+    dotnet-version: '3.1.x'
 - name: Publish the package to nuget.org
   run: dotnet nuget push */bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
   env:
@@ -157,8 +157,8 @@ In case of a single version installation, the `dotnet-version` output contains t
     - uses: actions/setup-dotnet@v3
       id: cp310
       with:
-        dotnet-version: 3.1.422
-    - run: echo '${{ steps.cp310.outputs.dotnet-version }}' # outputs 3.1.422
+        dotnet-version: '3.1.422'
+    - run: echo '${{ steps.cp310.outputs.dotnet-version }}' # outputs '3.1.422'
 ```
 
 **Multiple version installation**
@@ -170,9 +170,9 @@ In case of a multiple version installation, the `dotnet-version` output contains
       id: cp310
       with:
         dotnet-version: | 
-          3.1.422
-          5.0.408
-    - run: echo '${{ steps.cp310.outputs.dotnet-version }}' # outputs 5.0.408
+          '3.1.422'
+          '5.0.408'
+    - run: echo '${{ steps.cp310.outputs.dotnet-version }}' # outputs '5.0.408'
 ```
 **Installation from global.json**
 
@@ -183,10 +183,10 @@ When the `dotnet-version` input is used along with the `global-json-file` input,
       id: cp310
       with:
         dotnet-version: | 
-          3.1.422
-          5.0.408
-        global-json-file: "./global.json" # contains version 2.2.207
-    - run: echo '${{ steps.cp310.outputs.dotnet-version }}' # outputs 2.2.207
+          '3.1.422'
+          '5.0.408'
+        global-json-file: "./global.json" # contains version '2.2.207'
+    - run: echo '${{ steps.cp310.outputs.dotnet-version }}' # outputs '2.2.207'
 ```
 
 ## Environment variables
